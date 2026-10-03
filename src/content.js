@@ -178,7 +178,7 @@ export const plans = [
 /* ---------- philosophy video (demo link, swap later) + footer ---------- */
 export const philosophy = {
   heading: "Your creativity is worth protecting.",
-  video: "aqz-KE-bpKQ",
+  video: "s5nkj-L2vAw",
   poster: board[5].src,
 };
 export const contactEmails = ["eneikareawajimathias@gmail.com", "finiakene@gmail.com"];
