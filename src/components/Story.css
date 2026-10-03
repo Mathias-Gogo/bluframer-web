@@ -1,0 +1,521 @@
+/* The story always stays dark: the opposite of the light hero.
+   The dark itself comes from the stage (.journey__wash), so this layer is transparent. */
+.story {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(84px, 12vh, 120px) 0 clamp(24px, 5vh, 48px);
+  color: var(--light);
+}
+
+.story__kicker {
+  margin: 0 0 clamp(18px, 5vh, 52px);
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  font-size: clamp(1rem, 1.7vw, 1.4rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* text gets the narrower column, the photo gets the wider one */
+.story__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 80px);
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- text: every step shares one grid cell, so the height never jumps ---------- */
+.story__copy {
+  display: grid;
+}
+
+.story__step {
+  grid-area: 1 / 1;
+  align-self: center;
+  opacity: 0;
+  translate: 0 28px;
+  pointer-events: none;
+  transition:
+    opacity 0.4s var(--ease-out),
+    translate 0.6s var(--ease-out);
+}
+
+.story__step.is-active {
+  opacity: 1;
+  translate: 0 0;
+  pointer-events: auto;
+  transition-delay: 0.18s;
+}
+
+.story__title {
+  margin: 0 0 0.45em;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  font-size: clamp(2rem, 4.4vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.story__text {
+  max-width: 34ch;
+  margin: 0;
+  color: rgba(247, 247, 243, 0.74);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+}
+
+/* ---------- photo + status bars ---------- */
+.story__media {
+  position: relative;
+  width: 100%;
+  height: min(62svh, 540px);
+  border-radius: 28px;
+  overflow: hidden;
+  background: var(--mid);
+  container-type: inline-size;
+}
+
+/* Photos are stacked. Each new one fades in over the one before it, and
+   fades back out when you scroll up, so there's never a gap. */
+.story__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.story__img.is-in {
+  opacity: 1;
+}
+
+.story__bars {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+
+.bar {
+  position: relative;
+  flex: 1;
+  height: 22px;
+  /* roomy tap target around an 8px bar */
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.bar::before,
+.bar i {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 999px;
+}
+
+.bar::before {
+  right: 0;
+  background: rgba(247, 247, 243, 0.4);
+  box-shadow: 0 0 0 1px rgba(48, 48, 45, 0.18);
+}
+
+/* the fill is driven by scroll: --sp runs from 0 to 4 across the whole section */
+.bar i {
+  width: calc(clamp(0, calc(var(--sp) - var(--i)), 1) * 100%);
+  background: var(--light);
+}
+
+.story :focus-visible {
+  outline-color: var(--light);
+}
+
+.bar:focus-visible {
+  outline: 3px solid var(--light);
+  outline-offset: 0;
+  border-radius: 999px;
+}
+
+/* ---------- phones: photo on top, text below ---------- */
+@media (max-width: 760px) {
+  .story {
+    justify-content: flex-start;
+  }
+
+  .story__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .story__media {
+    order: -1;
+    height: min(38svh, 300px);
+  }
+
+  .story__title {
+    font-size: clamp(1.7rem, 7.5vw, 2.4rem);
+  }
+}
+
+/* ---------- arriving: once the photo has landed, the rest of the section settles in ---------- */
+.story__kicker,
+.story__copy,
+.story__bars {
+  opacity: 0;
+  translate: 0 18px;
+  transition:
+    opacity 0.6s var(--ease-out),
+    translate 0.7s var(--ease-out);
+}
+
+.journey__stage[data-landed="true"] .story__kicker,
+.journey__stage[data-landed="true"] .story__copy,
+.journey__stage[data-landed="true"] .story__bars {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.journey__stage[data-landed="true"] .story__copy {
+  transition-delay: 0.12s;
+}
+
+.journey__stage[data-landed="true"] .story__bars {
+  transition-delay: 0.25s;
+}
+
+/* ---------- photo transition: a wipe instead of a crossfade ---------- */
+.story__img {
+  clip-path: inset(0 100% 0 0);
+  scale: 1.08;
+  transition: clip-path 0.9s var(--ease-io), scale 1.2s var(--ease-out);
+}
+
+.story__img.is-in {
+  clip-path: inset(0);
+  scale: 1;
+}
+
+/* ---------- scenes: product moments scrubbed by scroll (--lp, 0 to 1 per step) ---------- */
+.scenes {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.scene {
+  --lp: clamp(0, calc(var(--sp) - var(--i)), 1);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.scene.is-on {
+  opacity: 1;
+  transition-delay: 0.3s;
+}
+
+.chip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: var(--light);
+  color: var(--dark);
+  font-weight: 600;
+  font-size: clamp(0.78rem, 1.2vw, 0.95rem);
+  box-shadow: 3px 4px 0 rgba(48, 48, 45, 0.35);
+}
+
+.chip--tl {
+  top: 52px;
+  left: 16px;
+}
+
+.chip--bl {
+  bottom: 16px;
+  left: 16px;
+}
+
+.chip--br {
+  bottom: 16px;
+  right: 16px;
+}
+
+.chip--mid {
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  justify-content: center;
+  padding: 3.2cqw 2cqw;
+  white-space: nowrap;
+  font-size: 5.6cqw;
+  line-height: 1;
+  translate: -50% -50%;
+  scale: clamp(0, calc((var(--lp) - 0.08) * 8), 1);
+}
+
+.chip--bc {
+  bottom: 16px;
+  left: 50%;
+  translate: -50% 0;
+}
+
+.chip--off {
+  opacity: 0.55;
+}
+
+.ico {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* 1 · secure: the scan finishes, then an upload-complete card draws its checkmark */
+.veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(48, 48, 45, 0.45);
+  clip-path: inset(0 0 calc((1 - var(--lp)) * 100%) 0);
+}
+
+.scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  top: calc(var(--lp) * 100%);
+  background: var(--light);
+  box-shadow: 0 0 24px 6px rgba(247, 247, 243, 0.55);
+  opacity: clamp(0, calc((0.8 - var(--lp)) * 8), 1);
+}
+
+.done {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: clamp(16px, 2.4vw, 26px) clamp(26px, 4vw, 46px);
+  border-radius: 24px;
+  background: var(--light);
+  color: var(--dark);
+  box-shadow: 4px 6px 0 rgba(48, 48, 45, 0.4);
+  font-weight: 600;
+  font-size: clamp(0.95rem, 1.7vw, 1.25rem);
+  translate: -50% -50%;
+  scale: clamp(0, calc((var(--lp) - 0.45) * 6), 1);
+}
+
+.done svg {
+  width: clamp(52px, 8vw, 84px);
+  fill: none;
+  stroke: var(--dark);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.done .c {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, calc((var(--lp) - 0.5) * 5), 1));
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.done .t {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, calc((var(--lp) - 0.7) * 6), 1));
+}
+
+.done span {
+  opacity: clamp(0, calc((var(--lp) - 0.82) * 8), 1);
+}
+
+/* 2 · control: a cursor moves in, right-clicks, and gets a modal */
+.cursor {
+  position: absolute;
+  left: calc((18 + 28 * clamp(0, calc((var(--lp) - 0.1) * 2.2), 1)) * 1%);
+  top: calc((72 - 30 * clamp(0, calc((var(--lp) - 0.1) * 2.2), 1)) * 1%);
+  scale: calc(1 - clamp(0, calc(1 - abs(var(--lp) - 0.57) * 25), 1) * 0.2);
+  filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.4));
+}
+
+.ring {
+  position: absolute;
+  left: 46%;
+  top: 42%;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  border: 3px solid var(--light);
+  border-radius: 50%;
+  scale: calc(0.3 + clamp(0, calc((var(--lp) - 0.55) * 6), 1) * 1.4);
+  opacity: clamp(0, calc(min((var(--lp) - 0.55) * 40, 1 - (var(--lp) - 0.55) * 6)), 1);
+}
+
+.modal {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  width: min(82%, 290px);
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: var(--light);
+  color: var(--dark);
+  box-shadow: 4px 6px 0 rgba(48, 48, 45, 0.4);
+  font-size: clamp(0.8rem, 1.2vw, 0.92rem);
+  line-height: 1.4;
+  translate: -50% -50%;
+  scale: clamp(0, calc((var(--lp) - 0.66) * 8), 1);
+}
+
+.modal b {
+  font-size: 1.05em;
+}
+
+.modal span {
+  color: rgba(48, 48, 45, 0.75);
+}
+
+.modal .ico {
+  width: 22px;
+  height: 22px;
+}
+
+/* 3 · share: tiled draft watermark, link that types itself, viewers joining */
+.mark {
+  position: absolute;
+  inset: -25%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-content: space-around;
+  rotate: -24deg;
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 1.8vw, 1.4rem);
+  text-align: center;
+  color: rgba(247, 247, 243, 0.4);
+  text-shadow: 0 1px 2px rgba(48, 48, 45, 0.5);
+  opacity: clamp(0, calc(var(--lp) * 4), 1);
+}
+
+.mark span {
+  padding: 1.2em 0;
+}
+
+.link b {
+  display: block;
+  font-weight: 600;
+  clip-path: inset(0 calc((1 - clamp(0, calc((var(--lp) - 0.2) * 2.5), 1)) * 100%) 0 0);
+}
+
+.avatars {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+}
+
+.avatars i {
+  width: 34px;
+  height: 34px;
+  margin-left: -8px;
+  border-radius: 50%;
+  border: 3px solid var(--light);
+  background: color-mix(in srgb, var(--dark) calc(40% + var(--a) * 20%), var(--light));
+  scale: clamp(0, calc((var(--lp) - 0.45 - var(--a) * 0.15) * 8), 1);
+}
+
+/* 4 · launch: approve, unlock, portfolio slides up */
+.approve {
+  overflow: hidden;
+}
+
+.approve .a2 {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--light);
+}
+
+.approve .a1 {
+  visibility: visible;
+}
+
+.approve .a2 {
+  opacity: clamp(0, calc((var(--lp) - 0.3) * 20), 1);
+}
+
+.approve {
+  scale: calc(1 - clamp(0, calc(1 - abs(var(--lp) - 0.28) * 20), 1) * 0.1);
+}
+
+.dl {
+  opacity: calc(0.35 + clamp(0, calc((var(--lp) - 0.35) * 8), 1) * 0.65);
+}
+
+.portfolio {
+  position: absolute;
+  inset: 0;
+  padding: 52px 16px 64px;
+  background: var(--dark);
+  color: var(--light);
+  translate: 0 calc((1 - clamp(0, calc((var(--lp) - 0.6) * 3), 1)) * 100%);
+}
+
+.portfolio p {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+}
+
+.portfolio div {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  height: calc(100% - 36px);
+}
+
+.portfolio img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+@media (max-width: 760px) {
+  .portfolio div {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .chip--tl {
+    top: 40px;
+  }
+}

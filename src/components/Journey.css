@@ -1,0 +1,46 @@
+.journey {
+    position: relative;
+}
+
+/* the one screen that stays pinned while the track scrolls past */
+.journey__stage {
+    /* all of these are written by Journey.jsx as you scroll */
+    --hl: 0;
+    --fly: 0;
+    --wash: 0;
+    --tr: 0;
+    --m: 0;
+    --sp: 0;
+
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--light);
+}
+
+/* a dark layer that fades in over the light hero, so the colour change is gradual */
+.journey__wash {
+    position: absolute;
+    inset: 0;
+    background: var(--dark);
+    opacity: var(--wash);
+    pointer-events: none;
+}
+
+/* the story stays hidden until the lead photo has landed, then takes over */
+.journey__story {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    visibility: hidden;
+}
+
+.journey__stage[data-landed="true"] .journey__story {
+    visibility: visible;
+}
+
+/* once landed, the hero (and the travelling photo) are done */
+.journey__stage[data-landed="true"] .hero {
+    visibility: hidden;
+}

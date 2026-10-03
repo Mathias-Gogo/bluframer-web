@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Indie+Flower&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Knewave&family=Syne:wght@400..800&display=swap');
+
+:root {
+  /* the two brand colours */
+  --light: #f7f7f3;
+  --dark: #30302d;
+  /* in-between tone for shadows, tape and placeholders */
+  --mid: color-mix(in srgb, var(--dark) 45%, var(--light));
+
+  /* type */
+  --font-display: "Indie Flower", cursive;
+  --font-body: "Instrument Sans", sans-serif;
+  /* layout */
+  --gutter: clamp(16px, 3vw, 40px);
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-io: cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--light);
+  color: var(--dark);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--dark);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}

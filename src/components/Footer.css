@@ -1,0 +1,70 @@
+.ft {
+    position: relative;
+    overflow: hidden;
+    background: var(--dark);
+    color: var(--light);
+    padding: clamp(64px, 12vh, 120px) var(--gutter) 24px;
+    container-type: inline-size;
+}
+
+.ft__cols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px clamp(48px, 10vw, 140px);
+    width: 100%;
+    max-width: 1180px;
+    margin-inline: auto;
+}
+
+.ft h3 {
+    margin: 0 0 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(247, 247, 243, 0.55);
+}
+
+.ft ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 10px;
+}
+
+.ft a {
+    color: var(--light);
+    text-decoration: none;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    border-bottom: 1.5px solid transparent;
+    transition: border-color 0.3s;
+    overflow-wrap: anywhere;
+}
+
+.ft a:hover {
+    border-color: currentColor;
+}
+
+.ft a:focus-visible {
+    outline: 3px solid var(--light);
+    outline-offset: 4px;
+}
+
+/* the one big moment: the wordmark spans the width and is cropped by the bottom edge */
+.ft__mark {
+    margin: clamp(48px, 10vh, 110px) 0 -0.1em;
+    text-align: center;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 21cqw;
+    line-height: 0.9;
+    user-select: none;
+}
+
+.ft__legal {
+    position: relative;
+    margin: 8px 0 0;
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(247, 247, 243, 0.55);
+}

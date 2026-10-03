@@ -1,0 +1,257 @@
+.pr {
+    background: var(--dark);
+    color: var(--light);
+    padding: clamp(80px, 14vh, 140px) 0;
+}
+
+.pr__title {
+    margin: 0 auto clamp(36px, 7vh, 72px);
+    max-width: 26ch;
+    padding-inline: var(--gutter);
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 4.8vw, 4rem);
+    line-height: 1.05;
+}
+
+.pr__row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(14px, 1.8vw, 24px);
+    width: 100%;
+    max-width: 1340px;
+    margin-inline: auto;
+    padding: 24px var(--gutter) 12px;
+}
+
+/* ---------- cards: cream prints, same family as the audience stack ---------- */
+.pr__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(20px, 2vw, 28px);
+    border-radius: 18px;
+    background: var(--light);
+    color: var(--dark);
+    box-shadow: 0 0 0 1px rgba(48, 48, 45, 0.14), 4px 6px 0 rgba(247, 247, 243, 0.18);
+    opacity: 0;
+    transition: transform 0.4s var(--ease-out);
+}
+
+.pr[data-in="true"] .pr__card {
+    opacity: 1;
+    animation: pr-drop 0.8s var(--ease-out) backwards;
+    animation-delay: calc(var(--n) * 110ms);
+}
+
+@keyframes pr-drop {
+    from {
+        scale: 0.9;
+        translate: 0 -60px;
+        opacity: 0;
+    }
+}
+
+.pr__card.is-lifted {
+    transform: translateY(-14px);
+}
+
+@media (hover: hover) {
+    .pr__card:hover {
+        transform: translateY(-6px);
+    }
+
+    .pr__card.is-lifted:hover {
+        transform: translateY(-20px);
+    }
+}
+
+.pr__tape {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    translate: -50% 0;
+    rotate: -3deg;
+    padding: 4px 14px;
+    background: var(--mid);
+    box-shadow: 0 0 0 1px rgba(48, 48, 45, 0.18);
+    font-weight: 700;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.pr__name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+}
+
+.pr__note {
+    margin: 2px 0 18px;
+    font-size: 0.92rem;
+    color: rgba(48, 48, 45, 0.6);
+}
+
+.pr__price {
+    margin: 0 0 20px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 3.2vw, 2.9rem);
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.pr__price small {
+    margin-left: 4px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(48, 48, 45, 0.6);
+}
+
+/* rows share labels across cards so the plans line up when compared */
+.pr__rows {
+    flex: 1;
+    margin: 0 0 22px;
+}
+
+.pr__rows div {
+    padding: 11px 0;
+    border-top: 1px solid rgba(48, 48, 45, 0.14);
+}
+
+.pr__rows dt {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(48, 48, 45, 0.55);
+}
+
+.pr__rows dd {
+    margin: 2px 0 0;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.pr__rows .is-muted dd {
+    font-weight: 500;
+    color: rgba(48, 48, 45, 0.45);
+}
+
+.pr__cta {
+    width: 100%;
+    padding: 13px 16px;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    background: var(--dark);
+    color: var(--light);
+    font: inherit;
+    font-weight: 700;
+    transition: transform 0.3s var(--ease-out);
+}
+
+.pr__cta:hover {
+    transform: scale(1.03);
+}
+
+.pr__more {
+    align-self: center;
+    margin-top: 12px;
+    padding: 4px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    color: var(--dark);
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.pr button:focus-visible {
+    outline: 3px solid var(--dark);
+    outline-offset: 3px;
+}
+
+/* ---------- video modal ---------- */
+.pr__modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(20, 20, 18, 0.82);
+    animation: pr-fade 0.25s ease;
+}
+
+@keyframes pr-fade {
+    from {
+        opacity: 0;
+    }
+}
+
+.pr__video {
+    position: relative;
+    width: min(960px, 100%);
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    background: #000;
+    animation: pr-pop 0.4s var(--ease-out);
+}
+
+@keyframes pr-pop {
+    from {
+        scale: 0.94;
+        opacity: 0;
+    }
+}
+
+.pr__video iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 16px;
+}
+
+.pr__close {
+    position: absolute;
+    top: -48px;
+    right: 0;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--light);
+    color: var(--dark);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* ---------- phones: swipe row, next card peeks in ---------- */
+@media (max-width: 900px) {
+    .pr__row {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-top: 28px;
+        scrollbar-width: none;
+    }
+
+    .pr__row::-webkit-scrollbar {
+        display: none;
+    }
+
+    .pr__card {
+        flex: 0 0 78%;
+        max-width: 320px;
+        scroll-snap-align: center;
+    }
+
+    .pr__card.is-lifted {
+        transform: none;
+    }
+}

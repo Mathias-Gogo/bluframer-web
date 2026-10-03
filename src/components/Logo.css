@@ -1,0 +1,37 @@
+.logo {
+  display: inline-grid;
+  text-decoration: none;
+}
+
+.logo__img {
+  grid-area: 1 / 1;
+  width: 200px;
+  max-width: none;
+  transition:
+    opacity 0.35s var(--ease-io),
+    transform 0.3s var(--ease-out);
+}
+
+.logo__img--on-dark {
+  opacity: 0;
+}
+
+.logo:hover .logo__img {
+  transform: rotate(-3deg);
+}
+
+/* the logo sits over a dark area: fade to the dark-background version */
+:root[data-nav-l="dark"] .logo__img--on-light,
+.nav[data-open="true"] .logo__img--on-light {
+  opacity: 0;
+}
+
+:root[data-nav-l="dark"] .logo__img--on-dark,
+.nav[data-open="true"] .logo__img--on-dark {
+  opacity: 1;
+}
+
+:root[data-nav-l="dark"] .logo:focus-visible,
+.nav[data-open="true"] .logo:focus-visible {
+  outline-color: var(--light);
+}
