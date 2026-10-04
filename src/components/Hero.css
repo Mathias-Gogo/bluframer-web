@@ -151,7 +151,7 @@
     font-stretch: 82%;
     font-size: clamp(1.6rem, 9vw, 6.5rem);
     text-transform: uppercase;
-    text-shadow: 0.045em 0.045em 0 rgba(255, 248, 248, 0.16);
+    text-shadow: 0.045em 0.045em 0 #f7f7f3;
 }
 
 .hero__line {

@@ -185,4 +185,3 @@ export const philosophy = {
   video: "aqz-KE-bpKQ",
   poster: board[5].src,
 };
-export const contactEmails = ["eneikareawajimathias@gmail.com", "finiakene@gmail.com"];

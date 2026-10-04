@@ -3,7 +3,7 @@
 :root {
   /* the two brand colours */
   --light: #f7f7f3;
-  --dark: #30302d;
+  --dark: #1c283e;
   /* in-between tone for shadows, tape and placeholders */
   --mid: color-mix(in srgb, var(--dark) 45%, var(--light));
 
