@@ -1,4 +1,6 @@
 .ph {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
     background: var(--light);
     color: var(--dark);
     padding: clamp(96px, 16vh, 160px) var(--gutter);
@@ -6,7 +8,7 @@
 
 .ph__title {
     margin: 0 auto clamp(40px, 8vh, 80px);
-    max-width: 34ch;
+    max-width: 14ch;
     text-align: center;
     font-family: var(--font-display);
     font-weight: 800;

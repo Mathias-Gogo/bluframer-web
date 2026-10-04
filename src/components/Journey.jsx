@@ -16,6 +16,8 @@ export default function Journey() {
   const stageRef = useRef(null);
   const geoRef = useRef(null);
   const stepRef = useRef(0);
+  const lastRef = useRef({ p: -1, sp: -1 });
+  const widthRef = useRef(0);
   const reduceRef = useRef(false);
   const [step, setStep] = useState(0);
 
@@ -27,7 +29,7 @@ export default function Journey() {
     return { track, stage, unit: scrollable / TOTAL, scrollable };
   }, []);
 
-  const update = useCallback(() => {
+  const update = useCallback((force = false) => {
     const m = measure();
     if (!m) return;
     const rect = m.track.getBoundingClientRect();
@@ -37,6 +39,13 @@ export default function Journey() {
     const p = clamp(screens / A); // 0 to 1 across phase A (hero hands over to story)
     const sp = clamp((screens - A) / B) * steps.length; // 0 to 4 across phase B (the story)
     const idx = Math.min(steps.length - 1, Math.floor(sp));
+
+    // Off-screen (above or below the track) p and sp are clamped, so nothing changes:
+    // don't touch the DOM at all. This keeps scrolling the rest of the page cheap.
+    const last = lastRef.current;
+    if (!force && Math.abs(p - last.p) < 0.0005 && Math.abs(sp - last.sp) < 0.0005) return;
+    last.p = p;
+    last.sp = sp;
 
     const f = applyFrame(m.stage, geoRef.current, p, reduceRef.current);
     m.stage.style.setProperty("--sp", sp.toFixed(4));
@@ -58,7 +67,7 @@ export default function Journey() {
   const remeasure = useCallback(() => {
     const stage = stageRef.current;
     if (stage) geoRef.current = measureGeometry(stage);
-    update();
+    update(true);
   }, [update]);
 
   useLayoutEffect(() => {
@@ -78,7 +87,12 @@ export default function Journey() {
         });
       }
     };
+    widthRef.current = window.innerWidth;
     const onResize = () => {
+      // phones fire "resize" whenever the address bar slides in or out (height only);
+      // re-measuring on every one of those is what made scrolling stutter
+      if (window.innerWidth === widthRef.current) return;
+      widthRef.current = window.innerWidth;
       cancelAnimationFrame(raf);
       raf = 0;
       remeasure();

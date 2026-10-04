@@ -82,11 +82,10 @@
   border-radius: 28px;
   overflow: hidden;
   background: var(--mid);
-  container-type: inline-size;
 }
 
 /* Photos are stacked. Each new one fades in over the one before it, and
-   fades back out when you scroll up, so there's never a gap. */
+     fades back out when you scroll up, so there's never a gap. */
 .story__img {
   position: absolute;
   inset: 0;
@@ -226,13 +225,19 @@
   --lp: clamp(0, calc(var(--sp) - var(--i)), 1);
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transition: opacity 0.35s ease;
+  display: none;
+  /* inactive scenes cost nothing while you scroll */
 }
 
 .scene.is-on {
-  opacity: 1;
-  transition-delay: 0.3s;
+  display: block;
+  animation: scene-in 0.35s ease 0.3s backwards;
+}
+
+@keyframes scene-in {
+  from {
+    opacity: 0;
+  }
 }
 
 .chip {
@@ -267,13 +272,9 @@
 .chip--mid {
   top: 50%;
   left: 50%;
-  width: 80%;
-  justify-content: center;
-  padding: 3.2cqw 2cqw;
-  white-space: nowrap;
-  font-size: 5.6cqw;
-  line-height: 1;
   translate: -50% -50%;
+  padding: clamp(14px, 2vw, 22px) clamp(24px, 3.6vw, 44px);
+  font-size: clamp(1.1rem, 2.6vw, 1.9rem);
   scale: clamp(0, calc((var(--lp) - 0.08) * 8), 1);
 }
 

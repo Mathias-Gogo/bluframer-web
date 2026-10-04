@@ -34,12 +34,20 @@
 .card:not(.card--lead) {
     transform: translate(calc(var(--fly) * var(--ox) * 1.3vw), calc(var(--fly) * var(--oy) * 1.3vh)) scale(calc(1 + var(--fly) * var(--z) * 0.3));
     opacity: calc(1 - var(--fly) * 1.25);
-    will-change: transform, opacity;
 }
 
 /* blur only while the page is moving, so the resting board stays cheap to draw */
 .journey__stage[data-moving="true"] .card:not(.card--lead) {
+    will-change: transform, opacity;
     filter: blur(calc(var(--fly) * 16px));
+}
+
+/* blur is the most expensive effect on a phone GPU; the fade and drift carry it fine */
+@media (hover: none),
+(max-width: 700px) {
+    .journey__stage[data-moving="true"] .card:not(.card--lead) {
+        filter: none;
+    }
 }
 
 /* the lead card sits with the others at rest (headline stays readable),

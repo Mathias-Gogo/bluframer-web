@@ -1,4 +1,6 @@
 .pr {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
     background: var(--dark);
     color: var(--light);
     padding: clamp(80px, 14vh, 140px) 0;
@@ -6,7 +8,7 @@
 
 .pr__title {
     margin: 0 auto clamp(36px, 7vh, 72px);
-    max-width: 26ch;
+    max-width: 16ch;
     padding-inline: var(--gutter);
     text-align: center;
     font-family: var(--font-display);
@@ -20,7 +22,7 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: clamp(14px, 1.8vw, 24px);
     width: 100%;
-    max-width: 1340px;
+    max-width: 1240px;
     margin-inline: auto;
     padding: 24px var(--gutter) 12px;
 }

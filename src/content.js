@@ -1,5 +1,9 @@
 import { photo } from "./images";
 
+// Ask Cloudinary for a right-sized, modern-format copy instead of the full original.
+// This is the biggest single speed-up: phones were decoding multi-megabyte photos.
+const opt = (url, w = 900) => url.replace("/image/upload/", `/image/upload/f_auto,q_auto,w_${w}/`);
+
 export const SAMPLE =
   "This is just sample text. This is just used to fill this page so it looks like there are words.";
 
@@ -65,7 +69,7 @@ export const board = raw.map((c, n) => ({
   // which way the card drifts when the page zooms through it
   ox: +(c.x + c.w / 2 - 50).toFixed(1),
   oy: +(c.y + 6 - 50).toFixed(1),
-  src: heroPhotos[n % heroPhotos.length],
+  src: opt(heroPhotos[n % heroPhotos.length], 900),
   m: mobileLayout[n] && {
     ...mobileLayout[n],
     ox: +(mobileLayout[n].x + mobileLayout[n].w / 2 - 50).toFixed(1),
@@ -116,21 +120,21 @@ export const audience = [
     title: "Graphic designers",
     who: "Freelance and solo gigs",
     text: "You send the final file and the payment goes quiet. Keep your work locked until you decide it's theirs.",
-    src: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790983131/graphic_designer_xmlt7b.jpg",
+    src: opt("https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790983131/graphic_designer_xmlt7b.jpg", 900),
     tilt: -2,
   },
   {
     title: "Photographers",
     who: "Your own shoots and gigs",
     text: "One full-resolution gallery in a client's hands and you're no longer needed. Let them review everything, and keep the files until you release them.",
-    src: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790983131/photo_txqkzj.jpg",
+    src: opt("https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790983131/photo_txqkzj.jpg", 900),
     tilt: 2,
   },
   {
     title: "Agencies",
     who: "Many clients, many companies",
     text: "One leaked draft can cost you a client. Control who sees what, per client and per project, and release work only when it's signed off.",
-    src: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790983196/agency_tomt8s.jpg",
+    src: opt("https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790983196/agency_tomt8s.jpg", 900),
     tilt: -1,
   },
 ];
@@ -178,7 +182,7 @@ export const plans = [
 /* ---------- philosophy video (demo link, swap later) + footer ---------- */
 export const philosophy = {
   heading: "Your creativity is worth protecting.",
-  video: "s5nkj-L2vAw",
+  video: "aqz-KE-bpKQ",
   poster: board[5].src,
 };
 export const contactEmails = ["eneikareawajimathias@gmail.com", "finiakene@gmail.com"];
