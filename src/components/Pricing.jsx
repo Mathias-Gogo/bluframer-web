@@ -52,9 +52,9 @@ export default function Pricing() {
                         </dl>
 
                         <button type="button" className="pr__cta">{p.cta}</button>
-                        <button type="button" className="pr__more" onClick={() => setOpen(p)}>
+                        {/* <button type="button" className="pr__more" onClick={() => setOpen(p)}>
                             Learn more
-                        </button>
+                        </button> */}
                     </article>
                 ))}
             </div>

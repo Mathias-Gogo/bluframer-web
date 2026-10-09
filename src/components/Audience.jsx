@@ -64,9 +64,9 @@ export default function Audience() {
   };
 
   return (
-    <section id="audience" className="aud" ref={trackRef} style={{ height: `${LEN * 100}svh` }} aria-label="Who Bluframer is for">
+    <section id="audience" className="aud" ref={trackRef} style={{ height: `${LEN * 100}svh` }} aria-label="Who Asha is for">
       <div className="aud__stage" data-in={inView}>
-        <p className="aud__kicker">We build Bluframer for</p>
+        <p className="aud__kicker">We built Asha for</p>
 
         <div className="aud__grid">
           <div className="aud__copy">

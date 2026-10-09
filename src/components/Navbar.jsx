@@ -96,8 +96,8 @@ export default function Navbar() {
         </button>
 
         <div className="nav__right">
-          <a className="pill pill--demo" href="#demo" ref={demoRef}>
-            Book Demo
+          <a className="pill pill--demo" href="https://app.asha.com.ng" ref={demoRef}>
+            Try out Asha
           </a>
         </div>
       </header>

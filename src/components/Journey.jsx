@@ -127,7 +127,7 @@ export default function Journey() {
       className="journey"
       ref={trackRef}
       style={{ height: `${(1 + TOTAL) * 100}svh` }}
-      aria-label="Bluframer introduction"
+      aria-label="Asha introduction"
     >
       <div className="journey__stage" ref={stageRef} data-landed="false" data-moving="false">
         <div className="journey__wash" aria-hidden="true" />

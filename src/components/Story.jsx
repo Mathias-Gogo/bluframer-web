@@ -6,7 +6,7 @@ import "./Story.css";
 export default function Story({ step, onJump }) {
   return (
     <div className="story">
-      <p className="story__kicker">Bluframer helps to</p>
+      <p className="story__kicker">Asha helps to</p>
 
       <div className="story__grid">
         <div className="story__copy">
@@ -98,7 +98,7 @@ function Scenes({ step }) {
         <div className="mark">
           {Array.from({ length: 24 }, (_, n) => <span key={n}>Draft · yours</span>)}
         </div>
-        <span className="chip chip--mid link"><b>framer.asha.com.ng/s/link</b></span>
+        <span className="chip chip--mid link"><b>asha.com.ng/s/link</b></span>
         <div className="avatars">
           {[0, 1, 2].map((a) => <i key={a} style={{ "--a": a }} />)}
         </div>

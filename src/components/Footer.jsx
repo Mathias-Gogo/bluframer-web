@@ -7,7 +7,7 @@ const INBOXES = ["ZW5laWthcmVhd2FqaW1hdGhpYXNAZ21haWwuY29t", "ZmluaWFrZW5lQGdtYW
 
 function openMail() {
     const to = INBOXES.map((x) => atob(x)).join(",");
-    window.location.href = `mailto:${to}?subject=${encodeURIComponent("Hello Bluframer")}`;
+    window.location.href = `mailto:${to}?subject=${encodeURIComponent("Hello Asha")}`;
 }
 
 export default function Footer() {
@@ -28,8 +28,8 @@ export default function Footer() {
                 </nav>
             </div>
 
-            <p className="ft__legal">© {new Date().getFullYear()} Bluframer</p>
-            <p className="ft__mark" aria-hidden="true">bluframer</p>
+            <p className="ft__legal">© {new Date().getFullYear()} Asha Creative Technologies</p>
+            <p className="ft__mark" aria-hidden="true">asha.com.ng</p>
 
         </footer>
     );
