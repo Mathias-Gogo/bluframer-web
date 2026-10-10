@@ -5,7 +5,7 @@
 
 .logo__img {
   grid-area: 1 / 1;
-  width: 200px;
+  width: 100px;
   max-width: none;
   transition:
     opacity 0.35s var(--ease-io),

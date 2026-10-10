@@ -1,9 +1,9 @@
 // Logos. The first works on light backgrounds, the second on dark ones.
 // The navbar swaps between them as the page behind it changes.
 export const logoOnLight =
-  "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790972724/Untitled_design_ngonsf.svg";
+  "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1791640738/LOGO_Light_hloyxe.svg";
 export const logoOnDark =
-  "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790973852/Untitled_design_3_oyy0uf.png";
+  "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1791640733/LOGO_Dark_nnfgu3.svg";
 
 // Sample photos. picsum.photos always loads, so the layout is easy to judge.
 // Swap `photo()` for your own files or Unsplash URLs whenever you're ready:
