@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asha.com.ng/sitemap.xml

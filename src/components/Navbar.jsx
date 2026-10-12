@@ -11,7 +11,7 @@ export default function Navbar() {
   const leftRef = useRef(null);
   const demoRef = useRef(null);
 
-  // Logo, Menu and Book Demo each pick light or dark colours from the section
+  // Logo, Menu and Try out Asha each pick light or dark colours from the section
   // behind them. Any section can opt in with data-nav-theme="dark".
   useEffect(() => {
     const root = document.documentElement;
@@ -135,8 +135,8 @@ export default function Navbar() {
           ))}
         </div>
 
-        <a className="menu__demo" href="#demo" onClick={() => setOpen(false)}>
-          Book Demo
+        <a className="menu__demo" href="https://app.asha.com.ng" onClick={() => setOpen(false)}>
+          Try out Asha
         </a>
       </div>
     </>

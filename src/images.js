@@ -14,6 +14,6 @@ export const photo = (seed, w = 800, h = 1000) =>
 // Full-screen menu: label, link target, and the preview shown on hover.
 export const menuLinks = [
   { label: "Who it's for", href: "#audience", img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790978049/1_lhs7vh.jpg" },
-  { label: "Pricing", href: "#pricing", img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790978674/13_ynnnsj.jpg" },
+  { label: "How it works", href: "#how", img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790978674/13_ynnnsj.jpg" },
   { label: "Philosophy", href: "#philosophy", img: "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1790983196/agency_tomt8s.jpg" },
 ];

@@ -139,43 +139,20 @@ export const audience = [
   },
 ];
 
-/* ---------- pricing (video links are demos, swap later) ---------- */
-export const pricingHeading = "Start free. Protect more as you grow.";
-export const plans = [
+/* ---------- how it works (text only for now; add a `src` photo to each step later) ---------- */
+export const howHeading = "How it works";
+export const howSteps = [
   {
-    name: "Free",
-    price: "₦0",
-    note: "To try it out",
-    rows: [["Projects", "3"], ["Uploads", "10 total"], ["Portfolio", "No portfolio", true], ["Protection", "Watermark only"]],
-    cta: "Get started free",
-    video: "aqz-KE-bpKQ",
+    title: "Upload your work",
+    text: "Go to your desk and upload your pictures, whether they're graphics or photographs.",
   },
   {
-    name: "Pro",
-    price: "₦999",
-    per: "/month",
-    note: "For working creatives",
-    tag: "Start here",
-    rows: [["Projects", "20"], ["Uploads", "200 total"], ["Portfolio", "Included"], ["Protection", "Custom watermark and quality controls"]],
-    cta: "Subscribe now",
-    video: "aqz-KE-bpKQ",
+    title: "Protect it",
+    text: "Click Protect. It's on by default, but always confirm before you move on.",
   },
   {
-    name: "Max",
-    price: "₦1,900",
-    per: "/month",
-    note: "For a full practice",
-    rows: [["Projects", "50"], ["Uploads", "500 total"], ["Portfolio", "Custom portfolio builder"], ["Protection", "Everything in Pro"]],
-    cta: "Subscribe now",
-    video: "aqz-KE-bpKQ",
-  },
-  {
-    name: "Enterprise",
-    price: "Let's talk",
-    note: "For teams and agencies",
-    rows: [["Projects", "Custom"], ["Uploads", "Custom"], ["Portfolio", "Custom systems"], ["Protection", "Built around you"]],
-    cta: "Contact us",
-    video: "aqz-KE-bpKQ",
+    title: "Share the link",
+    text: "Copy the link and send it to your clients. They can review everything and take nothing.",
   },
 ];
 
@@ -183,5 +160,5 @@ export const plans = [
 export const philosophy = {
   heading: "Your creativity is worth protecting.",
   video: "aqz-KE-bpKQ",
-  poster: board[5].src,
+  poster: board[2].src,
 };

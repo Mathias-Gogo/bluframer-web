@@ -15,6 +15,12 @@ export default function Philosophy() {
   return (
     <section id="philosophy" className="ph" ref={ref} data-in={inView} aria-label="Our philosophy">
       <h2 className="ph__title">{philosophy.heading}</h2>
+
+      <figure className="ph__print">
+        <div className="ph__frame">
+          <img src={philosophy.poster} alt="" loading="lazy" />
+        </div>
+      </figure>
     </section>
   );
 }

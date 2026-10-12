@@ -1,0 +1,118 @@
+.hw {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 700px;
+    background: var(--dark);
+    color: var(--light);
+    padding: clamp(80px, 14vh, 140px) 0;
+}
+
+.hw__title {
+    margin: 0 auto clamp(40px, 8vh, 80px);
+    padding-inline: var(--gutter);
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 4.8vw, 4rem);
+    line-height: 1.05;
+}
+
+.hw__row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(20px, 3vw, 44px);
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px var(--gutter) 12px;
+    list-style: none;
+}
+
+/* ---------- cards: cream taped prints, same family as the audience stack ---------- */
+.hw__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+    padding: clamp(24px, 2.4vw, 36px);
+    border-radius: 18px;
+    background: var(--light);
+    color: var(--dark);
+    box-shadow: 0 0 0 1px rgba(48, 48, 45, 0.14), 4px 6px 0 rgba(247, 247, 243, 0.18);
+    opacity: 0;
+    rotate: var(--tilt, 0deg);
+    transition: transform 0.4s var(--ease-out);
+}
+
+.hw__card:nth-child(1) { --tilt: -1.5deg; }
+.hw__card:nth-child(2) { --tilt: 1deg; }
+.hw__card:nth-child(3) { --tilt: -1deg; }
+
+.hw[data-in="true"] .hw__card {
+    opacity: 1;
+    animation: hw-drop 0.8s var(--ease-out) backwards;
+    animation-delay: calc(var(--n) * 140ms);
+}
+
+@keyframes hw-drop {
+    from {
+        scale: 0.9;
+        translate: 0 -60px;
+        opacity: 0;
+    }
+}
+
+@media (hover: hover) {
+    .hw__card:hover {
+        transform: translateY(-6px);
+    }
+}
+
+.hw__tape {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    translate: -50% 0;
+    rotate: -3deg;
+    padding: 4px 14px;
+    background: var(--mid);
+    box-shadow: 0 0 0 1px rgba(48, 48, 45, 0.18);
+    font-weight: 700;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.hw__num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(4rem, 7vw, 6rem);
+    line-height: 0.9;
+    color: var(--mid);
+}
+
+.hw__name {
+    margin: 18px 0 8px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+    line-height: 1.1;
+}
+
+.hw__text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: rgba(28, 40, 62, 0.75);
+}
+
+/* ---------- phones: cards stack in one column ---------- */
+@media (max-width: 760px) {
+    .hw__row {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        gap: 36px;
+    }
+
+    .hw__card {
+        min-height: 0;
+    }
+}
