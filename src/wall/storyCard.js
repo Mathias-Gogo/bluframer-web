@@ -51,7 +51,7 @@ export async function renderStoryCard(s) {
     document.fonts.load('800 26px "Instrument Sans"'),
     document.fonts.load('700 25px "Instrument Sans"'),
   ]).catch(() => {});
-  const [logo, shot] = await Promise.all([loadImage(logoOnLight, true).catch(() => null), s.shotUrl ? loadImage(s.shotUrl).catch(() => null) : null]);
+  const [logo, shot] = await Promise.all([loadImage(logoOnLight, true).catch(() => null), s.shotUrl ? loadImage(s.shotUrl, true).catch(() => null) : null]);
 
   const canvas = document.createElement("canvas");
   canvas.width = W * 2; canvas.height = H * 2;
@@ -70,7 +70,7 @@ export async function renderStoryCard(s) {
 
   // text card: always first under the title
   const hasShot = !!shot;
-  const question = s.kind === "fame" ? "what has Asha done for you?" : "what has a client done to you?";
+  const question = s.kind === "fame" ? "how has Asha helped you?" : "what has a client done to you?";
   const cardW = 432, cardX = (W - cardW) / 2, inner = cardW - 64;
   ctx.font = '800 26px "Instrument Sans", sans-serif';
   const qLines = wrap(ctx, question, inner);
@@ -140,6 +140,78 @@ export async function renderStoryCard(s) {
   // link, bottom
   ctx.fillStyle = DARK; ctx.textAlign = "center"; ctx.font = '800 22px "Indie Flower", cursive';
   ctx.fillText("asha.com.ng/wall", W / 2, H - 38);
+
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+  return { blob, url: URL.createObjectURL(blob) };
+}
+
+
+const PROMPT = {
+  shame: { question: "what has a client done to you?", head: "Tell it how it happened.", hint: "Type it or add screenshots. Send it anonymous, or put your @handle on it. Leave out names and numbers." },
+  fame: { question: "how has Asha helped you?", head: "Tell us how it went.", hint: "Type it or add a screenshot. Send it anonymous, or put your @handle on it so people can find your work." },
+};
+
+/**
+ * The prompt card (1080 x 1920) people post to their story so friends send theirs. Layout B: logo and wall name at
+ * the top. The link is printed on it as words; the real, tappable link goes in the caption when it is shared.
+ * @param {"shame"|"fame"} kind
+ */
+export async function renderPromptCard(kind) {
+  const p = PROMPT[kind] || PROMPT.shame;
+  await Promise.all([
+    document.fonts.load('800 38px "Indie Flower"'),
+    document.fonts.load('700 30px "Indie Flower"'),
+    document.fonts.load('800 36px "Instrument Sans"'),
+  ]).catch(() => {});
+  const logo = await loadImage(logoOnLight, true).catch(() => null);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = W * 2; canvas.height = H * 2;
+  const ctx = canvas.getContext("2d");
+  ctx.scale(2, 2);
+  ctx.fillStyle = LIGHT; ctx.fillRect(0, 0, W, H);
+
+  const lh = 60;
+  if (logo) { const lw = (logo.naturalWidth / logo.naturalHeight) * lh || lh * 3; ctx.drawImage(logo, (W - lw) / 2, 40, lw, lh); }
+  ctx.fillStyle = DARK; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+  ctx.font = '800 38px "Indie Flower", cursive';
+  ctx.fillText(kind === "fame" ? "Wall of Fame" : "Wall of Shame", W / 2, 142);
+
+  const cardW = 432, cardX = (W - cardW) / 2, cardY = 200, inner = cardW - 72;
+  ctx.font = '800 36px "Instrument Sans", sans-serif';
+  const qLines = wrap(ctx, p.question, inner);
+  ctx.font = '700 30px "Indie Flower", cursive';
+  const hLines = wrap(ctx, p.head, inner);
+  ctx.font = '400 18px "Instrument Sans", sans-serif';
+  const tLines = wrap(ctx, p.hint, inner);
+  const headH = 44 + qLines.length * 40 + 40;
+  const bodyH = 40 + hLines.length * 38 + 14 + tLines.length * 26 + 44;
+  const cardH = headH + bodyH;
+
+  tilt(ctx, W / 2, cardY + cardH / 2, -1.5, () => {
+    hardShadow(ctx, cardX, cardY, cardW, cardH, 28, 6, 8);
+    const g = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY + headH);
+    g.addColorStop(0, DARK); g.addColorStop(1, "#2d3f63");
+    ctx.fillStyle = g; rr(ctx, cardX, cardY, cardW, headH, [28, 28, 0, 0]); ctx.fill();
+    ctx.fillStyle = "#fff"; rr(ctx, cardX, cardY + headH, cardW, bodyH, [0, 0, 28, 28]); ctx.fill();
+    ctx.textAlign = "center";
+    ctx.fillStyle = LIGHT; ctx.font = '800 36px "Instrument Sans", sans-serif';
+    qLines.forEach((l, i) => ctx.fillText(l, W / 2, cardY + 44 + 30 + i * 40));
+    ctx.fillStyle = DARK; ctx.font = '700 30px "Indie Flower", cursive';
+    hLines.forEach((l, i) => ctx.fillText(l, W / 2, cardY + headH + 40 + 26 + i * 38));
+    ctx.fillStyle = "rgba(28,40,62,0.7)"; ctx.font = '400 18px "Instrument Sans", sans-serif';
+    tLines.forEach((l, i) => ctx.fillText(l, W / 2, cardY + headH + 40 + hLines.length * 38 + 14 + 18 + i * 26));
+    tape(ctx, W / 2, cardY - 14, cardW * 0.34, 26, -3, "#949aa2");
+  });
+
+  const label = "asha.com.ng/wall";
+  ctx.font = '800 26px "Indie Flower", cursive';
+  const pw = ctx.measureText(label).width + 56, ph = 56, px = (W - pw) / 2, py = cardY + cardH + 46;
+  tilt(ctx, W / 2, py + ph / 2, 2, () => {
+    ctx.fillStyle = "rgba(48,48,45,0.25)"; rr(ctx, px + 4, py + 6, pw, ph, 28); ctx.fill();
+    ctx.fillStyle = DARK; rr(ctx, px, py, pw, ph, 28); ctx.fill();
+    ctx.fillStyle = LIGHT; ctx.textAlign = "center"; ctx.fillText(label, W / 2, py + 37);
+  });
 
   const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
   return { blob, url: URL.createObjectURL(blob) };

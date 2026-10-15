@@ -1,6 +1,6 @@
 # The Wall (asha.com.ng/wall): design notes
 
-A campaign pair: **Wall of Shame** ("what has a client done to you?") and **Wall of Fame** ("what has Asha done for you?"). Creatives send a short story, anonymous or with their @handle. A person at Asha reads every one before it goes up.
+A campaign pair: **Wall of Shame** ("what has a client done to you?") and **Wall of Fame** ("how has Asha helped you?"). Creatives send a short story, anonymous or with their @handle. A person at Asha reads every one before it goes up.
 
 The code is in `src/wall/`. This file records the design decisions so they survive after the design canvas is gone.
 
@@ -44,8 +44,17 @@ Story 300 characters, screenshot title 60, up to 3 screenshots, 5 MB each (image
 ## Review (privacy)
 Nothing is public until a moderator publishes it. The review page flags phone numbers and emails or @names in the text, and lets the moderator draw boxes over names, numbers and faces; the blurred copy replaces the file and the original is deleted. No client names on the wall.
 
-## Share sheet (after sending)
-Shows the story card, then: WhatsApp and Facebook (share links), Instagram Story and Snapchat (on a phone: the phone's share sheet with the card attached, because neither has a web link that attaches an image; on desktop the card is saved to post by hand), Copy link, Save card as image.
+## Sharing
+The point of the card is brand identity: people post it to their WhatsApp Status, Instagram or Snapchat story and it carries the Asha logo and `asha.com.ng/wall` with it. The picture has the link printed as words only. The real, tappable link goes in the **caption**.
+- **Share card** (and the WhatsApp, Instagram Story and Snapchat buttons): on a phone this opens the phone's share sheet with the picture and a caption that contains the link. That is how it reaches WhatsApp Status or a story. On a laptop the card is saved (or WhatsApp opens with the text and link) so it can be posted by hand.
+- **Facebook, Threads, X**: open a post with the words and the link. They can't take the picture from a website; Save card as image covers that.
+- **Copy link**, **Save card as image**.
+- **After sending**: shows the person's own story card with the link to the Wall.
+- **On every story on the wall**: a Share button opens the same sheet for that story. Its caption links to that story (`/wall/shame#<id>`), and that page shows the story first.
+- **Prompt card**: "Share this prompt as a story" (on `/wall` and the wall pages) draws the prompt card (logo and wall name at the top, the question, the link) and shares or saves it the same way, so friends know to send theirs.
+- **Link previews**: `/wall` shows its own title and picture when pasted into WhatsApp, Facebook, X or Threads (`public/wall-preview.html` and `public/og/wall.png`, served to those apps' crawlers by `vercel.json`).
+
+Instagram's own Stories sharing (a background and sticker image handed to the Instagram app) works only from native iOS and Android apps, which is why a website can't add a tappable link sticker for the person.
 
 ## Not designed or built yet
-Edit/withdraw a story after sending, "Same here" reactions (shown in the early design only), per-story pages.
+Edit/withdraw a story after sending, "Same here" reactions (shown in the early design only), a dedicated page per story.

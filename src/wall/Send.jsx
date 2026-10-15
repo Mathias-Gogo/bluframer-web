@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ShareSheet from "./ShareSheet";
+import PromptShare from "./PromptShare";
 import { wallApi, uploadShot, APP_URL, WALL_LINK } from "./api";
 import { prepareImage } from "./image";
 import "./wall.css";
@@ -30,7 +31,7 @@ const DRAFT = readDraft();
 
 const COPY = {
   shame: { head: "what has a client done to you?", ph: "Tell it how it happened. Leave out names and numbers." },
-  fame: { head: "what has Asha done for you?", ph: "Tell us how it went. Leave out names and numbers." },
+  fame: { head: "how has Asha helped you?", ph: "Tell us how it went. Leave out names and numbers." },
 };
 
 export default function Send() {
@@ -149,6 +150,7 @@ export default function Send() {
             {error && <p className="wl-error" role="alert">{error}</p>}
             <button className="wl-btn wl-btn--solid wl-btn--wide wl-btn--big" type="submit" disabled={busy || needsSignIn}>{busy ? "Sending…" : "Send to the wall"}</button>
             <p className="wl-note">A person reads every story before it goes up. Your story lives at {WALL_LINK}.</p>
+            <PromptShare kind={kind} />
           </form>
         )}
       </main>

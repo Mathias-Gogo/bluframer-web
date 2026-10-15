@@ -1,5 +1,7 @@
 {
   "rewrites": [
+    { "source": "/wall", "has": [{ "type": "header", "key": "user-agent", "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|Slackbot|TelegramBot|LinkedInBot|Discordbot|Threads|meta-externalagent).*" }], "destination": "/wall-preview.html" },
+    { "source": "/wall/:kind", "has": [{ "type": "header", "key": "user-agent", "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|Slackbot|TelegramBot|LinkedInBot|Discordbot|Threads|meta-externalagent).*" }], "destination": "/wall-preview.html" },
     { "source": "/wall", "destination": "/index.html" },
     { "source": "/wall/:kind", "destination": "/index.html" },
     { "source": "/stats", "destination": "/index.html" }
