@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { renderStoryCard } from "./storyCard";
-import { shareImage, saveImage } from "./share";
+import { shareImage, saveImage, copyImage } from "./share";
 import { WALL_LINK, WALL_URL } from "./api";
 
 const enc = encodeURIComponent;
@@ -37,7 +37,20 @@ export default function ShareSheet({ kind, body, handle, shotTitle, shotUrl, ext
     setNote(`Saved your card. Open ${appName}, add it to your story, and paste the link in the caption (use Copy link).`);
   };
   const open = (url) => window.open(url, "_blank", "noopener,noreferrer");
-  const whatsappText = () => { open(`https://wa.me/?text=${enc(caption)}`); setNote("On a laptop WhatsApp only gets the text and link. Use Save card as image to attach the picture."); };
+  // No phone share sheet (a laptop): copy the card, open the app's own post page with the words and link filled in,
+  // and tell the person to paste the picture. If the browser won't copy, save the card instead.
+  const withPicture = (appName, url) => async () => {
+    const ok = await copyImage(card.blob);
+    if (!ok) saveImage(card.blob);
+    open(url);
+    setNote(ok
+      ? `Card copied. In ${appName}, paste it with Ctrl+V (Cmd+V on a Mac) to add the picture. The link is already in the text.`
+      : `Card saved. In ${appName}, attach it from your downloads. The link is already in the text.`);
+  };
+  const whatsappText = withPicture("WhatsApp", `https://wa.me/?text=${enc(caption)}`);
+  const facebookText = withPicture("Facebook", `https://www.facebook.com/sharer/sharer.php?u=${enc(link)}`);
+  const threadsText = withPicture("Threads", `https://www.threads.com/intent/post?text=${enc(lead)}&url=${enc(link)}`);
+  const xText = withPicture("X", `https://x.com/intent/post?text=${enc(lead)}&url=${enc(link)}`);
 
   const copy = async () => {
     try { await navigator.clipboard.writeText(link); }
@@ -60,14 +73,14 @@ export default function ShareSheet({ kind, body, handle, shotTitle, shotUrl, ext
         <button type="button" className="wl-btn wl-btn--line" onClick={() => post("WhatsApp", whatsappText)} disabled={!card}>WhatsApp</button>
         <button type="button" className="wl-btn wl-btn--line" onClick={() => post("Instagram")} disabled={!card}>Instagram Story</button>
         <button type="button" className="wl-btn wl-btn--line" onClick={() => post("Snapchat")} disabled={!card}>Snapchat</button>
-        <button type="button" className="wl-btn wl-btn--line" onClick={() => open(`https://www.facebook.com/sharer/sharer.php?u=${enc(link)}`)}>Facebook</button>
-        <button type="button" className="wl-btn wl-btn--line" onClick={() => open(`https://www.threads.com/intent/post?text=${enc(lead)}&url=${enc(link)}`)}>Threads</button>
-        <button type="button" className="wl-btn wl-btn--line" onClick={() => open(`https://x.com/intent/post?text=${enc(lead)}&url=${enc(link)}`)}>X</button>
+        <button type="button" className="wl-btn wl-btn--line" onClick={() => post("Facebook", facebookText)} disabled={!card}>Facebook</button>
+        <button type="button" className="wl-btn wl-btn--line" onClick={() => post("Threads", threadsText)} disabled={!card}>Threads</button>
+        <button type="button" className="wl-btn wl-btn--line" onClick={() => post("X", xText)} disabled={!card}>X</button>
       </div>
       <button type="button" className="wl-btn wl-btn--line wl-btn--wide" onClick={copy}>{copied ? "Link copied" : `Copy link: ${link.replace(/^https:\/\//, "")}`}</button>
       <button type="button" className="wl-btn wl-btn--line wl-btn--wide" onClick={() => card && saveImage(card.blob)} disabled={!card}>Save card as image</button>
 
-      <p className="wl-note" role="status">{note || "On a phone, Share card opens your share sheet with the picture and the link in the caption. Facebook, Threads and X share the link and words only."}</p>
+      <p className="wl-note" role="status">{note || "On a phone, every button opens your share sheet with the picture and the link in the caption. On a laptop the card is copied so you can paste it into the app."}</p>
       {sent && <p className="wl-note"><a href={`/wall/${kind}`}>Read the wall</a></p>}
     </section>
   );

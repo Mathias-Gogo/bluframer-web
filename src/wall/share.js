@@ -12,6 +12,18 @@ export async function shareImage({ blob, text, name = "asha-wall.png" }) {
   }
 }
 
+// Laptop fallback: puts the card on the clipboard so it can be pasted (Ctrl/Cmd+V) into the app that opens next.
+// Returns true when the browser allowed it. Needs a secure page and a click, and only PNG is accepted.
+export async function copyImage(blob) {
+  try {
+    if (!navigator.clipboard?.write || typeof ClipboardItem === "undefined") return false;
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function saveImage(blob, name = "asha-wall.png") {
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
