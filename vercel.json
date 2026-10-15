@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/wall", "destination": "/index.html" },
+    { "source": "/wall/:kind", "destination": "/index.html" },
+    { "source": "/stats", "destination": "/index.html" }
+  ]
+}
