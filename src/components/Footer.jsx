@@ -1,4 +1,4 @@
-import { menuLinks } from "../images";
+import { menuLinks, toHome } from "../images";
 import "./Footer.css";
 
 // Both inboxes, stored encoded and only joined when someone taps Contact,
@@ -23,7 +23,7 @@ export default function Footer() {
 
                 <nav className="ft__links" aria-label="Explore">
                     {menuLinks.map((l) => (
-                        <a key={l.label} href={l.href}>{l.label}</a>
+                        <a key={l.label} href={toHome(l.href)}>{l.label}</a>
                     ))}
                 </nav>
             </div>

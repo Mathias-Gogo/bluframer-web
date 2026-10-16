@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
-import { menuLinks } from "../images";
+import { menuLinks, toHome } from "../images";
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -113,7 +113,7 @@ export default function Navbar() {
             <li key={link.label} className="menu__item" style={{ "--i": i }}>
               <a
                 className="menu__link"
-                href={link.href}
+                href={toHome(link.href)}
                 onClick={() => setOpen(false)}
                 onMouseEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
