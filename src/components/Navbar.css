@@ -24,6 +24,37 @@
   justify-self: end;
 }
 
+/* ---------- frosted backdrop, fades in on scroll ---------- */
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -28px 0;
+  /* extends below the bar so the fade-out is soft */
+  z-index: -1;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--light) 55%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-io), background-color 0.35s var(--ease-io);
+}
+
+.nav[data-scrolled="true"]::before {
+  opacity: 1;
+}
+
+/* tint follows the section behind the bar */
+:root[data-nav-c="dark"] .nav::before {
+  background: color-mix(in srgb, var(--dark) 45%, transparent);
+}
+
+/* the full-screen menu is opaque, so hide the frost while it's open */
+.nav[data-open="true"]::before {
+  opacity: 0;
+}
+
 /* ---------- pills: dark on light pages, light on dark pages ---------- */
 .pill {
   display: inline-flex;

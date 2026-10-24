@@ -6,6 +6,7 @@ import "./Navbar.css";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const [origin, setOrigin] = useState({ x: "50%", y: "40px" });
   const menuBtnRef = useRef(null);
   const leftRef = useRef(null);
@@ -49,6 +50,14 @@ export default function Navbar() {
     };
   }, []);
 
+  // frosted bar once the page has scrolled a little
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const toggle = () => {
     // the overlay opens (and closes) from the centre of the Menu button
     if (!open && menuBtnRef.current) {
@@ -73,7 +82,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="nav" data-open={open}>
+      <header className="nav" data-open={open} data-scrolled={scrolled}>
         <div className="nav__left" ref={leftRef}>
           <Logo />
         </div>
