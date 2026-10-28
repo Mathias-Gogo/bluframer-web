@@ -13,6 +13,9 @@ const INTRO = {
 const PROMPT = { shame: "What has a client done to you?", fame: "How has Asha helped you?" };
 const TILT = [-1.2, 0.8, -0.6, 1.4, -0.9, 0.5];
 
+// Make sure an entry from the API always has the fields the page reads.
+const clean = (e) => (e && typeof e === "object" && e.id ? { ...e, body: e.body ?? "", shots: Array.isArray(e.shots) ? e.shots : [] } : null);
+
 function Entry({ e, i, onShare, highlight }) {
   return (
     <article id={`story-${e.id}`} className={`wl-entry${highlight ? " wl-entry--pinned" : ""}`} style={{ "--r": `${TILT[i % TILT.length]}deg` }}>
@@ -42,7 +45,11 @@ export default function Wall({ kind }) {
     document.title = `Wall of ${kind === "fame" ? "Fame" : "Shame"} | Asha`;
     let alive = true;
     wallApi(`/entries?kind=${kind}`)
-      .then((d) => alive && setState({ status: "ready", entries: d.entries }))
+      .then((d) => {
+        if (!alive) return;
+        if (!Array.isArray(d?.entries)) throw new Error("Unexpected response shape");
+        setState({ status: "ready", entries: d.entries.map(clean).filter(Boolean) });
+      })
       .catch(() => alive && setState({ status: "error", entries: [] }));
     return () => { alive = false; };
   }, [kind]);
@@ -52,7 +59,7 @@ export default function Wall({ kind }) {
     const id = window.location.hash.slice(1);
     if (!/^[0-9a-f-]{36}$/.test(id)) return;
     let alive = true;
-    wallApi(`/entries/${id}`).then((e) => alive && e.kind === kind && setPinned(e)).catch(() => {});
+    wallApi(`/entries/${id}`).then((e) => { const c = clean(e); if (alive && c && c.kind === kind) setPinned(c); }).catch(() => {});
     return () => { alive = false; };
   }, [kind]);
 

@@ -69,7 +69,9 @@ export default function Send() {
     try {
       let paths = [];
       if (shots.length) {
-        const { uploads } = await wallApi("/sign", { method: "POST", body: JSON.stringify({ count: shots.length }) });
+        const signed = await wallApi("/sign", { method: "POST", body: JSON.stringify({ count: shots.length }) });
+        const uploads = signed?.uploads;
+        if (!Array.isArray(uploads) || uploads.length < shots.length) throw new Error("Couldn't prepare the screenshot upload. Try again.");
         await Promise.all(uploads.map((u, i) => uploadShot(u, shots[i].blob)));
         paths = uploads.map((u) => u.path);
       }
